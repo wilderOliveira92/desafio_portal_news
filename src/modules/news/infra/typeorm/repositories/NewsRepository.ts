@@ -1,9 +1,9 @@
-import { getMongoRepository, MongoRepository } from 'typeorm';
-import AppError from '@shared/errors/appError';
-import INewsRepository from '../../../repositories/INewsRepository';
-import News from '../schemas/News';
-import ICreateNewsDTO from '../../../dtos/ICreateNewsDTO';
-import IUpdateNewsDTO from '../../../dtos/IUpdateNewsDTO';
+import { getMongoRepository, MongoRepository } from "typeorm";
+import AppError from "@shared/errors/appError";
+import INewsRepository from "../../../repositories/INewsRepository";
+import News from "../schemas/News";
+import ICreateNewsDTO from "../../../dtos/ICreateNewsDTO";
+import IUpdateNewsDTO from "../../../dtos/IUpdateNewsDTO";
 
 export default class NewsRepository implements INewsRepository {
   private ormRepository: MongoRepository<News>;
@@ -13,11 +13,13 @@ export default class NewsRepository implements INewsRepository {
   }
 
   public async create({
+    user_id,
     title,
     publication,
     content,
   }: ICreateNewsDTO): Promise<News> {
     const news = this.ormRepository.create({
+      user_id,
       title,
       content,
       publication,
@@ -30,12 +32,12 @@ export default class NewsRepository implements INewsRepository {
 
   public async update(
     id: string,
-    { title, content, publication }: IUpdateNewsDTO,
+    { title, content, publication }: IUpdateNewsDTO
   ): Promise<News> {
     const news = await this.ormRepository.findOne(id);
 
     if (!news) {
-      throw new AppError('The news was not found');
+      throw new AppError("The news was not found");
     }
 
     news.content = content || news.content;

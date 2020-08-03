@@ -1,8 +1,8 @@
-import { Router } from 'express';
-import { celebrate, Segments, Joi } from 'celebrate';
+import { Router } from "express";
+import { celebrate, Segments, Joi } from "celebrate";
 
-import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
-import NewsController from '../controllers/NewsController';
+import ensureAuthenticated from "@modules/users/infra/http/middlewares/ensureAuthenticated";
+import NewsController from "../controllers/NewsController";
 
 const newsRouter = Router();
 const newsController = new NewsController();
@@ -10,7 +10,7 @@ const newsController = new NewsController();
 newsRouter.use(ensureAuthenticated);
 
 newsRouter.post(
-  '/',
+  "/",
   celebrate({
     [Segments.BODY]: {
       title: Joi.string().required(),
@@ -18,14 +18,14 @@ newsRouter.post(
       publication: Joi.date().required(),
     },
   }),
-  newsController.create,
+  newsController.create
 );
 
-newsRouter.get('/:id', newsController.show);
-newsRouter.get('/', newsController.index);
-newsRouter.delete('/:id', newsController.delete);
+newsRouter.get("/:id", newsController.show);
+newsRouter.get("/", newsController.index);
+newsRouter.delete("/:id", newsController.delete);
 newsRouter.patch(
-  '/:id',
+  "/:id",
   celebrate({
     [Segments.BODY]: {
       title: Joi.string(),
@@ -33,7 +33,7 @@ newsRouter.patch(
       publication: Joi.date(),
     },
   }),
-  newsController.update,
+  newsController.update
 );
 
 export default newsRouter;

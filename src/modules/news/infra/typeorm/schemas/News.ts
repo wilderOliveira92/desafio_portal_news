@@ -5,12 +5,15 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ObjectIdColumn,
-} from 'typeorm';
+} from "typeorm";
 
-@Entity('news')
+@Entity("news")
 export default class News {
   @ObjectIdColumn()
   id: ObjectID;
+
+  @Column()
+  user_id: string;
 
   @Column()
   title: string;
